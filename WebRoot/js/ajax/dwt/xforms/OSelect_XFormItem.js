@@ -108,7 +108,8 @@ OSelect1_XFormItem.prototype.updateElement = function (newValue) {
 				this.getElement().style.width = el.offsetWidth + 20 + 'px';
 				
 		} else {
-			el.innerHTML = newValue;
+			// Encode data before appending to dom
+			el.innerHTML = AjxStringUtil.htmlEncode(newValue);
 		}
 		//el.readOnly = !this.getInheritedProperty("editable");
 	}
@@ -805,7 +806,7 @@ OSelect1_XFormItem.prototype.getChoiceHTML = function (itemNum, value, label, cs
 			" onmouseover=\"",ref, ".onChoiceOver(", itemNum,", event||window.event)\"",
 			" onmouseout=\"",ref, ".onChoiceOut(", itemNum,", event||window.event)\"",
 			" onclick=\"",ref, ".onChoiceClick(", itemNum,", event||window.event)\"",
-			" itemnum = '", itemNum, "'",">",label,	"</div></td></tr>");
+			" itemnum = '", itemNum, "'",">",AjxStringUtil.htmlEncode(label),	"</div></td></tr>");
 	
 }
 
@@ -1078,7 +1079,7 @@ OSelect_Check_XFormItem.prototype.getChoiceHTML = function (itemNum, value, labe
                         (this.getIsEnabled())?(" ondblclick=\"" + ref + ".onChoiceDoubleClick(" + itemNum + ", event||window.event)\""):"",
                 ">",
                 "<table cellspacing=0 cellpadding=0><tr><td><input type=checkbox id='",id,"_choiceitem_",itemNum,"'></td><td>",
-                                (!this.getIsEnabled())?("<font color=\"#808080\">"):"", label,(!this.getIsEnabled())?("</font>"):"",
+                                (!this.getIsEnabled())?("<font color=\"#808080\">"):"", AjxStringUtil.htmlEncode(label), (!this.getIsEnabled())?("</font>"):"",
                 "</td></tr></table></td></tr>"
         );
 
@@ -1287,7 +1288,6 @@ OSelect_DblCheck_XFormItem.prototype.getSubLabel = function () {
 OSelect_DblCheck_XFormItem.prototype.getChoiceHTML = function (itemNum, value, label, cssClass) {
 	var ref = this.getFormGlobalRef() + ".getItemById('"+ this.getId()+ "')";
 	var id = this.getId();
-	var subLabel = this.getSubLabel();
 	return AjxBuffer.concat(
 		"<tr><td class=", cssClass, 
 			" onmouseover=\"",ref, ".onChoiceOver(", itemNum,", event||window.event)\"",
@@ -1295,7 +1295,7 @@ OSelect_DblCheck_XFormItem.prototype.getChoiceHTML = function (itemNum, value, l
 			" onclick=\"",ref, ".onChoiceClick(", itemNum,", event||window.event)\"",
 			" ondblclick=\"",ref, ".onChoiceDoubleClick(", itemNum,", event||window.event)\">",
 				"<table cellspacing=0 cellpadding=0><tr><td><input type=checkbox id='",id,"_choiceitem_",itemNum,"'></td><td>",
-				label,
+				AjxStringUtil.htmlEncode(label),
 				"</td></tr></table>",
 			"</td><td class=",cssClass,
 				" onmouseover=\"",ref,".onSubChoiceOver(", itemNum, ", event||window.event)\"",
@@ -1303,7 +1303,7 @@ OSelect_DblCheck_XFormItem.prototype.getChoiceHTML = function (itemNum, value, l
 				" onclick=\"",ref, ".onSubChoiceClick(", itemNum, ", event||window.event)\"",
 				" ondblclick=\"",ref, ".onSubChoiceDoubleClick(", itemNum, ".event||window.event)\">",
 					"<table cellspacing=0 cellpadding=0><tr><td><input type=checkbox id='",id,"_subchoiceitem_",itemNum,"'></td><td>",
-				subLabel,
+				AjxStringUtil.htmlEncode(this.getSubLabel()),
 				"</td></tr></table>",
 		"</td></tr>"
 	);
